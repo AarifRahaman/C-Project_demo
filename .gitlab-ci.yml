@@ -6,7 +6,7 @@ build:
   stage: build
   script:
     - mkdir -p build
-    - g++ -std=c++17 -O2 -o build/app src/main.cpp
+    - g++ -std=c++17 -O2 -o build/app main.cpp
   artifacts:
     paths: [build/app]
 
