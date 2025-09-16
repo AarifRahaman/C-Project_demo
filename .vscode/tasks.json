@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "mkdir build",
+      "type": "shell",
+      "command": "cmd",
+      "args": ["/c", "if not exist build mkdir build"],
+      "problemMatcher": []
+    },
+    {
+      "label": "build hello",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++17",
+        "-g",
+        "hello.cpp",
+        "-o",
+        "build\\hello.exe"
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "group": { "kind": "build", "isDefault": true },
+      "dependsOn": ["mkdir build"]
+    }
+  ]
+}
