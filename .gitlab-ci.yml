@@ -2,6 +2,10 @@ image: gcc:13
 
 stages: [build, test, docs, deploy]
 
+variables:
+  DOXYFILE: Doxyfile          # change to docs/Doxyfile if that's your path
+  PDF_NAME: documentation.pdf
+
 build:
   stage: build
   script:
@@ -15,43 +19,44 @@ test:
   needs: [build]
   script:
     - ./build/app
-    
 
-variables:
-  DOXYFILE: Doxyfile
-
-# Common tools for both jobs
-.default_before_script: &default_before
-  - apt-get update
-  - apt-get install -y doxygen graphviz make
-
+# ---- NEW: Docs jobs ----
 docs_html:
   stage: docs
+  image: debian:bookworm
   before_script:
-    - *default_before
+    - apt-get update
+    - apt-get install -y doxygen graphviz
+    - echo "PWD=$(pwd)"; ls -la
+    - test -f "$DOXYFILE" || { echo "ERROR: $DOXYFILE not found"; exit 1; }
   script:
-    - doxygen "$DOXYFILE"          # produces html/ and latex/
+    - doxygen "$DOXYFILE"      # generates html/ (and latex/ if enabled)
+    - test -d html || { echo "ERROR: html/ not produced"; exit 1; }
   artifacts:
     paths:
-      - html/                      # full HTML site
+      - html/
     expire_in: 1 week
 
 docs_pdf:
   stage: docs
+  image: debian:bookworm
   before_script:
-    - *default_before
-    # LaTeX bits for PDF
-    - apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+    - apt-get update
+    - apt-get install -y doxygen graphviz make \
+        texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+    - test -f "$DOXYFILE" || { echo "ERROR: $DOXYFILE not found"; exit 1; }
   script:
-    - doxygen "$DOXYFILE"          # ensures latex/ exists (safe to run again)
+    - doxygen "$DOXYFILE"      # ensures latex/ exists
+    - test -d latex || { echo "ERROR: latex/ not produced"; exit 1; }
     - cd latex
-    - make                         # builds refman.pdf
-    - cp refman.pdf ../documentation.pdf
+    - make                     # builds refman.pdf
+    - cp refman.pdf ../"$PDF_NAME"
   artifacts:
     paths:
-      - documentation.pdf
+      - "$PDF_NAME"
     expire_in: 1 week
 
+# Deploy (unchanged logic)
 deploy_staging:
   stage: deploy
   needs: ["test"]
@@ -68,7 +73,6 @@ deploy_staging:
       - deployed/
     expire_in: 1 week
 
-# Manual deploy to production from main
 deploy_production:
   stage: deploy
   needs: ["test"]
@@ -79,9 +83,10 @@ deploy_production:
   when: manual
   script:
     - echo "Deploying to production..."
-    - echo "Code copied to production server "
+    - mkdir -p deployed
+    - cp build/app deployed/
+    - echo "Code copied to production server"
   artifacts:
     paths:
       - deployed/
     expire_in: 1 week
-
