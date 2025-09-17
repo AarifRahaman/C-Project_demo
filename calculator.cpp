@@ -43,7 +43,7 @@ int main() {
             break;
 
         default:
-            cout << "Invalid operator!" << endl;
+            cout << "Wrong operator!" << endl;
             return 1;
     }
 
