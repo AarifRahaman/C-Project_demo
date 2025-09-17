@@ -1,69 +1,40 @@
-image: gcc:13
+stages: [build, test, docs, deploy]
 
-stages:
-  - build
-  - test
-  - docs
-  - deploy
-
-variables:
-  DOXYFILE: Doxyfile
-  PDF_NAME: documentation.pdf
-
-# ---- Build C++ App ----
 build:
   stage: build
   script:
     - mkdir -p build
     - g++ -std=c++17 -O2 -o build/app main.cpp
   artifacts:
-    paths:
-      - build/app
+    paths: [build/app]
 
-# ---- Run Tests ----
 test:
   stage: test
   needs: [build]
   script:
     - ./build/app
 
-# ---- Documentation (HTML) ----
 docs_html:
   stage: docs
   image: debian:bookworm
-  before_script:
-    - apt-get update
-    - apt-get install -y doxygen graphviz
-    - test -f "$DOXYFILE" || { echo "ERROR: $DOXYFILE not found"; exit 1; }
   script:
-    - doxygen "$DOXYFILE"
-    - test -d html || { echo "ERROR: html/ not produced"; exit 1; }
+    - apt-get update && apt-get install -y doxygen graphviz
+    - doxygen Doxyfile
   artifacts:
-    paths:
-      - html/
+    paths: [html/]
     expire_in: 1 week
 
-# ---- Documentation (PDF) ----
 docs_pdf:
   stage: docs
   image: debian:bookworm
-  before_script:
-    - apt-get update
-    - apt-get install -y doxygen graphviz make \
-        texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
-    - test -f "$DOXYFILE" || { echo "ERROR: $DOXYFILE not found"; exit 1; }
   script:
-    - doxygen "$DOXYFILE"
-    - test -d latex || { echo "ERROR: latex/ not produced"; exit 1; }
-    - cd latex
-    - make
-    - cp refman.pdf ../"$PDF_NAME"
+    - apt-get update && apt-get install -y doxygen graphviz make texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+    - doxygen Doxyfile
+    - cd latex && make && cp refman.pdf ../documentation.pdf
   artifacts:
-    paths:
-      - "$PDF_NAME"
+    paths: [documentation.pdf]
     expire_in: 1 week
 
-# ---- Deploy to Staging ----
 deploy_staging:
   stage: deploy
   needs: ["test"]
@@ -76,11 +47,9 @@ deploy_staging:
     - mkdir -p deployed
     - cp build/app deployed/
   artifacts:
-    paths:
-      - deployed/
+    paths: [deployed/]
     expire_in: 1 week
 
-# ---- Manual Deploy to Production ----
 deploy_production:
   stage: deploy
   needs: ["test"]
@@ -95,6 +64,5 @@ deploy_production:
     - cp build/app deployed/
     - echo "Code copied to production server"
   artifacts:
-    paths:
-      - deployed/
+    paths: [deployed/]
     expire_in: 1 week
