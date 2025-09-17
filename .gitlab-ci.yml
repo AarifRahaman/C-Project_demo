@@ -1,42 +1,49 @@
 image: gcc:13
 
-stages: [build, test, docs, deploy]
+stages:
+  - build
+  - test
+  - docs
+  - deploy
 
 variables:
-  DOXYFILE: Doxyfile          # change to docs/Doxyfile if that's your path
+  DOXYFILE: Doxyfile
   PDF_NAME: documentation.pdf
 
+# ---- Build C++ App ----
 build:
   stage: build
   script:
     - mkdir -p build
     - g++ -std=c++17 -O2 -o build/app main.cpp
   artifacts:
-    paths: [build/app]
+    paths:
+      - build/app
 
+# ---- Run Tests ----
 test:
   stage: test
   needs: [build]
   script:
     - ./build/app
 
-# ---- NEW: Docs jobs ----
+# ---- Documentation (HTML) ----
 docs_html:
   stage: docs
   image: debian:bookworm
   before_script:
     - apt-get update
     - apt-get install -y doxygen graphviz
-    - echo "PWD=$(pwd)"; ls -la
     - test -f "$DOXYFILE" || { echo "ERROR: $DOXYFILE not found"; exit 1; }
   script:
-    - doxygen "$DOXYFILE"      # generates html/ (and latex/ if enabled)
+    - doxygen "$DOXYFILE"
     - test -d html || { echo "ERROR: html/ not produced"; exit 1; }
   artifacts:
     paths:
       - html/
     expire_in: 1 week
 
+# ---- Documentation (PDF) ----
 docs_pdf:
   stage: docs
   image: debian:bookworm
@@ -46,17 +53,17 @@ docs_pdf:
         texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
     - test -f "$DOXYFILE" || { echo "ERROR: $DOXYFILE not found"; exit 1; }
   script:
-    - doxygen "$DOXYFILE"      # ensures latex/ exists
+    - doxygen "$DOXYFILE"
     - test -d latex || { echo "ERROR: latex/ not produced"; exit 1; }
     - cd latex
-    - make                     # builds refman.pdf
+    - make
     - cp refman.pdf ../"$PDF_NAME"
   artifacts:
     paths:
       - "$PDF_NAME"
     expire_in: 1 week
 
-# Deploy (unchanged logic)
+# ---- Deploy to Staging ----
 deploy_staging:
   stage: deploy
   needs: ["test"]
@@ -73,6 +80,7 @@ deploy_staging:
       - deployed/
     expire_in: 1 week
 
+# ---- Manual Deploy to Production ----
 deploy_production:
   stage: deploy
   needs: ["test"]
