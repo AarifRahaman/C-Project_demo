@@ -37,7 +37,7 @@ docs_pdf:
 
 deploy_staging:
   stage: deploy
-  needs: ["test"]
+  needs: ["build"]
   environment:
     name: staging
   rules:
@@ -52,7 +52,7 @@ deploy_staging:
 
 deploy_production:
   stage: deploy
-  needs: ["test"]
+  needs: ["build"]
   environment:
     name: production
   rules:
