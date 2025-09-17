@@ -62,7 +62,9 @@ deploy_production:
     - echo "Deploying to production..."
     - mkdir -p deployed
     - cp build/app deployed/
-    - echo "Code copied to production server"
+    - echo "Deployed successfully!"
   artifacts:
     paths: [deployed/]
     expire_in: 1 week
+  
+  
