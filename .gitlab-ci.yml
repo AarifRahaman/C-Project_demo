@@ -15,3 +15,37 @@ test:
   needs: [build]
   script:
     - ./build/app
+
+deploy_staging:
+  stage: deploy
+  needs: ["test"]
+  environment:
+    name: staging
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+  script:
+    - echo "Deploying to staging..."
+    - mkdir -p deployed
+    - cp build/app deployed/
+  artifacts:
+    paths:
+      - deployed/
+    expire_in: 1 week
+
+# Manual deploy to production from main
+deploy_production:
+  stage: deploy
+  needs: ["test"]
+  environment:
+    name: production
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  when: manual
+  script:
+    - echo "Deploying to production..."
+    - echo "Code copied to production server "
+  artifacts:
+    paths:
+      - deployed/
+    expire_in: 1 week
+
