@@ -1,6 +1,6 @@
 image: gcc:13
 
-stages: [build, test, deploy]
+stages: [build, test, docs, deploy]
 
 build:
   stage: build
@@ -15,6 +15,42 @@ test:
   needs: [build]
   script:
     - ./build/app
+    
+
+variables:
+  DOXYFILE: Doxyfile
+
+# Common tools for both jobs
+.default_before_script: &default_before
+  - apt-get update
+  - apt-get install -y doxygen graphviz make
+
+docs_html:
+  stage: docs
+  before_script:
+    - *default_before
+  script:
+    - doxygen "$DOXYFILE"          # produces html/ and latex/
+  artifacts:
+    paths:
+      - html/                      # full HTML site
+    expire_in: 1 week
+
+docs_pdf:
+  stage: docs
+  before_script:
+    - *default_before
+    # LaTeX bits for PDF
+    - apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+  script:
+    - doxygen "$DOXYFILE"          # ensures latex/ exists (safe to run again)
+    - cd latex
+    - make                         # builds refman.pdf
+    - cp refman.pdf ../documentation.pdf
+  artifacts:
+    paths:
+      - documentation.pdf
+    expire_in: 1 week
 
 deploy_staging:
   stage: deploy
