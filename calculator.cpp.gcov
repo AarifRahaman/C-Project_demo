@@ -1,0 +1,59 @@
+        -:    0:Source:calculator.cpp
+        -:    0:Graph:calculator.gcno
+        -:    0:Data:calculator.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>     // Include the input/output library
+        -:    2:using namespace std;    // Use standard namespace (so we can write cout instead of std::cout)
+        -:    3:
+        1:    4:int main() {
+        -:    5:    double num1, num2;  // Variables to store two numbers entered by the user
+        -:    6:    char op;            // Variable to store the chosen operator (+, -, *, /)
+        -:    7:
+        -:    8:    // Ask user for the first number
+        1:    9:    cout << "Enter first number: ";
+        1:   10:    cin >> num1;
+        -:   11:
+        -:   12:    // Ask user for an operator
+        1:   13:    cout << "Enter an operator (+, -, *, /): ";
+        1:   14:    cin >> op;
+        -:   15:
+        -:   16:    // Ask user for the second number
+        1:   17:    cout << "Enter second number: ";
+        1:   18:    cin >> num2;
+        -:   19:
+        -:   20:    double result;  // Variable to store the result of the calculation
+        -:   21:
+        -:   22:    // Switch statement to decide which operation to perform
+        1:   23:    switch (op) {
+        1:   24:        case '+':  // If operator is +
+        1:   25:            result = num1 + num2;              // Perform addition
+        1:   26:            cout << "Result: " << result << endl; // Print result
+        1:   27:            break;
+        -:   28:
+    #####:   29:        case '-':  // If operator is -
+    #####:   30:            result = num1 - num2;              // Perform subtraction
+    #####:   31:            cout << "Result: " << result << endl; // Print result
+    #####:   32:            break;
+        -:   33:
+    #####:   34:        case '*':  // If operator is *
+    #####:   35:            result = num1 * num2;              // Perform multiplication
+    #####:   36:            cout << "Result: " << result << endl; // Print result
+    #####:   37:            break;
+        -:   38:
+    #####:   39:        case '/':  // If operator is /
+    #####:   40:            if (num2 != 0)                     // Check for division by zero
+    #####:   41:                result = num1 / num2;          // Perform division
+        -:   42:            else {                             // If second number is 0
+    #####:   43:                cout << "Error: Division by zero!" << endl; // Print error
+    #####:   44:                return 1;                      // Exit program with error code
+        -:   45:            }
+    #####:   46:            cout << "Result: " << result << endl; // Print result
+    #####:   47:            break;
+        -:   48:
+    #####:   49:        default:   // If the operator is not one of +, -, *, /
+    #####:   50:            cout << "Wrong operator!" << endl; // Print error
+    #####:   51:            return 1;                          // Exit program with error code
+        -:   52:    }
+        -:   53:
+        1:   54:    return 0; // Indicate successful program termination
+        -:   55:}

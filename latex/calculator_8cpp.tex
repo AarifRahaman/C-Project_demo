@@ -1,0 +1,79 @@
+\doxysection{calculator.\+cpp File Reference}
+\hypertarget{calculator_8cpp}{}\label{calculator_8cpp}\index{calculator.cpp@{calculator.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{calculator_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{calculator_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{calculator_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{calculator.cpp@{calculator.cpp}!main@{main}}
+\index{main@{main}!calculator.cpp@{calculator.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{calculator_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{calculator_8cpp_source_l00004}{4}} of file \mbox{\hyperlink{calculator_8cpp_source}{calculator.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00004\ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{keywordtype}{double}\ num1,\ num2;\ \ \textcolor{comment}{//\ Variables\ to\ store\ two\ numbers\ entered\ by\ the\ user}}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{char}\ op;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variable\ to\ store\ the\ chosen\ operator\ (+,\ -\/,\ *,\ /)}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{comment}{//\ Ask\ user\ for\ the\ first\ number}}
+\DoxyCodeLine{00009\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Enter\ first\ number:\ "{}};}
+\DoxyCodeLine{00010\ \ \ \ \ cin\ >>\ num1;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ Ask\ user\ for\ an\ operator}}
+\DoxyCodeLine{00013\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Enter\ an\ operator\ (+,\ -\/,\ *,\ /):\ "{}};}
+\DoxyCodeLine{00014\ \ \ \ \ cin\ >>\ op;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ Ask\ user\ for\ the\ second\ number}}
+\DoxyCodeLine{00017\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Enter\ second\ number:\ "{}};}
+\DoxyCodeLine{00018\ \ \ \ \ cin\ >>\ num2;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{double}\ result;\ \ \textcolor{comment}{//\ Variable\ to\ store\ the\ result\ of\ the\ calculation}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Switch\ statement\ to\ decide\ which\ operation\ to\ perform}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{switch}\ (op)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'+'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ +}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ +\ num2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ addition}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'-\/'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ -\/}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ -\/\ num2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ subtraction}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'*'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ *}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ *\ num2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ multiplication}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'/'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ /}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num2\ !=\ 0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ division\ by\ zero}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ /\ num2;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ division}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ second\ number\ is\ 0}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Division\ by\ zero!"{}}\ <<\ endl;\ \textcolor{comment}{//\ Print\ error}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exit\ program\ with\ error\ code}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \textcolor{comment}{//\ If\ the\ operator\ is\ not\ one\ of\ +,\ -\/,\ *,\ /}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Wrong\ operator!"{}}\ <<\ endl;\ \textcolor{comment}{//\ Print\ error}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exit\ program\ with\ error\ code}}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ Indicate\ successful\ program\ termination}}
+\DoxyCodeLine{00055\ \}}
+
+\end{DoxyCode}

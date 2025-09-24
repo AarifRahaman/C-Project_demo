@@ -1,0 +1,60 @@
+\doxysection{calculator.\+cpp}
+\hypertarget{calculator_8cpp_source}{}\label{calculator_8cpp_source}\mbox{\hyperlink{calculator_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <iostream>}\ \ \ \ \ \textcolor{comment}{//\ Include\ the\ input/output\ library}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00002}00002\ \textcolor{keyword}{using\ namespace\ }std;\ \ \ \ \textcolor{comment}{//\ Use\ standard\ namespace\ (so\ we\ can\ write\ cout\ instead\ of\ std::cout)}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00004}\mbox{\hyperlink{calculator_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00004}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{calculator_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()\ \{}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00005}00005\ \ \ \ \ \textcolor{keywordtype}{double}\ num1,\ num2;\ \ \textcolor{comment}{//\ Variables\ to\ store\ two\ numbers\ entered\ by\ the\ user}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00006}00006\ \ \ \ \ \textcolor{keywordtype}{char}\ op;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Variable\ to\ store\ the\ chosen\ operator\ (+,\ -\/,\ *,\ /)}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ Ask\ user\ for\ the\ first\ number}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00009}00009\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Enter\ first\ number:\ "{}};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00010}00010\ \ \ \ \ cin\ >>\ num1;}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ Ask\ user\ for\ an\ operator}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00013}00013\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Enter\ an\ operator\ (+,\ -\/,\ *,\ /):\ "{}};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00014}00014\ \ \ \ \ cin\ >>\ op;}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00016}00016\ \ \ \ \ \textcolor{comment}{//\ Ask\ user\ for\ the\ second\ number}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00017}00017\ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Enter\ second\ number:\ "{}};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00018}00018\ \ \ \ \ cin\ >>\ num2;}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00020}00020\ \ \ \ \ \textcolor{keywordtype}{double}\ result;\ \ \textcolor{comment}{//\ Variable\ to\ store\ the\ result\ of\ the\ calculation}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ Switch\ statement\ to\ decide\ which\ operation\ to\ perform}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{switch}\ (op)\ \{}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'+'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ +}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ +\ num2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ addition}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'-\/'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ -\/}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ -\/\ num2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ subtraction}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'*'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ *}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ *\ num2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ multiplication}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'/'}:\ \ \textcolor{comment}{//\ If\ operator\ is\ /}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num2\ !=\ 0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ division\ by\ zero}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ num1\ /\ num2;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Perform\ division}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ second\ number\ is\ 0}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Division\ by\ zero!"{}}\ <<\ endl;\ \textcolor{comment}{//\ Print\ error}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exit\ program\ with\ error\ code}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Result:\ "{}}\ <<\ result\ <<\ endl;\ \textcolor{comment}{//\ Print\ result}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \textcolor{comment}{//\ If\ the\ operator\ is\ not\ one\ of\ +,\ -\/,\ *,\ /}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Wrong\ operator!"{}}\ <<\ endl;\ \textcolor{comment}{//\ Print\ error}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exit\ program\ with\ error\ code}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00052}00052\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ Indicate\ successful\ program\ termination}}
+\DoxyCodeLine{\Hypertarget{calculator_8cpp_source_l00055}00055\ \}}
+
+\end{DoxyCode}
