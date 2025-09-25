@@ -8,5 +8,11 @@ pipeline {
         bat 'echo Listing workspace && dir /b'
       }
     }
+  stages('Build') {
+    steps{
+      bat 'g++ calculator.cpp -o calculator.exe'
+      bat 'echo Build complete. Output: calculator.exe'
+    }
+  }
   }
 }
