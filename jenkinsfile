@@ -1,0 +1,12 @@
+pipeline {
+  agent any
+  options { timestamps(); timeout(time: 5, unit: 'MINUTES') }
+  stages {
+    stage('Hello') {
+      steps {
+        bat 'echo Jenkins ↔ Gitea OK'
+        bat 'echo Listing workspace && dir /b'
+      }
+    }
+  }
+}
