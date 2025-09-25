@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Compiling the project..."
+                sh 'g++ calculator.cpp -o calculator'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+                sh './calculator < test_input.txt > output.txt'
+            }
+        }
+
+        stage('Docs') {
+            steps {
+                echo "Generating docs with Doxygen..."
+                sh 'doxygen Doxyfile'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying (example step)..."
+                sh 'echo Deployment step completed!'
+            }
+        }
+    }
+}
