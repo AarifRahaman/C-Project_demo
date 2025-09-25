@@ -9,10 +9,18 @@ pipeline {
       }
     }
     stage('Build') {
-    steps{
+      steps{
       bat 'g++ calculator.cpp -o calculator.exe'
       bat 'echo Build complete. Output: calculator.exe'
     }
   }
-  }
-}
+    stage('Test') {
+      steps{
+        bat 'echo Running calculator tests...'
+        bat '.\\calculator.exe'
+     
+           }
+        }
+
+      }
+    }
