@@ -1,33 +1,98 @@
 pipeline {
-    agent any
+  agent any
+  options { timestamps() }
 
-    stages {
-        stage('Build') {
-            steps {
-                echo "Compiling the project..."
-                sh 'g++ calculator.cpp -o calculator'
-            }
-        }
+  environment {
+    // MSYS2 paths so g++, gcov, lcov, genhtml, doxygen are available
+    MSYS = 'C:\\msys64'
+    PATH = "${env.MSYS}\\mingw64\\bin;${env.MSYS}\\usr\\bin;${env.PATH}"
+  }
 
-        stage('Test') {
-            steps {
-                echo "Running tests..."
-                sh './calculator < test_input.txt > output.txt'
-            }
-        }
+  triggers {
+    // If you didn’t set a webhook, uncomment polling:
+    // pollSCM('H/2 * * * *')
+  }
 
-        stage('Docs') {
-            steps {
-                echo "Generating docs with Doxygen..."
-                sh 'doxygen Doxyfile'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo "Deploying (example step)..."
-                sh 'echo Deployment step completed!'
-            }
-        }
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
+
+    stage('Build') {
+      steps {
+        bat '''
+          if not exist build mkdir build
+          g++ -std=c++17 -O0 -g --coverage -o build\\calculator.exe src\\calculator.cpp
+        '''
+      }
+    }
+
+    stage('Test') {
+      steps {
+        // Replace with your real tests. Example: run program with sample input.
+        bat '''
+          if exist tests\\sample_input.txt (
+            type tests\\sample_input.txt | build\\calculator.exe > build\\program_output.txt
+          ) else (
+            build\\calculator.exe > build\\program_output.txt
+          )
+        '''
+      }
+    }
+
+    stage('Coverage (gcov/lcov)') {
+      steps {
+        // Use MSYS2 bash to run lcov & genhtml reliably on Windows
+        bat '''
+          "%MSYS%\\usr\\bin\\bash.exe" -lc ^
+          "mkdir -p coverage && \
+           lcov --directory . --capture --output-file coverage/coverage.info && \
+           genhtml coverage/coverage.info --output-directory coverage/html"
+        '''
+      }
+    }
+
+    stage('Docs (Doxygen, optional)') {
+      when { expression { return fileExists('Doxyfile') } }
+      steps {
+        bat '''
+          doxygen Doxyfile
+        '''
+      }
+    }
+
+    stage('Publish reports & artifacts') {
+      steps {
+        // Publish HTML coverage in Jenkins UI
+        publishHTML(target: [
+          reportName: 'Coverage Report',
+          reportDir: 'coverage/html',
+          reportFiles: 'index.html',
+          keepAll: true,
+          alwaysLinkToLastBuild: true,
+          allowMissing: true
+        ])
+        // (Optional) Publish Doxygen HTML
+        publishHTML(target: [
+          reportName: 'Doxygen Docs',
+          reportDir: 'html',
+          reportFiles: 'index.html',
+          keepAll: true,
+          alwaysLinkToLastBuild: true,
+          allowMissing: true
+        ])
+        // Keep raw files too
+        archiveArtifacts artifacts: 'build/**,coverage/**,html/**', allowEmptyArchive: true
+        junit testResults: 'build\\**\\junit-*.xml', allowEmptyResults: true
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "Build URL: ${env.BUILD_URL}"
+    }
+  }
 }
