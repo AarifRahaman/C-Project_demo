@@ -2,12 +2,6 @@ pipeline {
   agent any
   options { timestamps(); timeout(time: 5, unit: 'MINUTES') }
   stages {
-    stage('Hello') {
-      steps {
-        bat 'echo Jenkins ↔ Gitea OK'
-        bat 'echo Listing workspace && dir /b'
-      }
-    }
     stage('Build') {
       steps{
       bat 'g++ calculator.cpp -o calculator.exe'
@@ -21,6 +15,19 @@ pipeline {
 
      
            }
+    stage('Docs') {
+            steps {
+                bat 'doxygen Doxyfile'
+                bat 'echo Documentation generated in docs/html/'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                bat 'echo Deploying application...'
+                bat 'copy calculator.exe C:\\deploy\\calculator.exe'
+                bat 'echo Deploy finished.'
+            }
         }
 
       }
