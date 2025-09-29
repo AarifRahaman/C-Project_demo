@@ -1,33 +1,38 @@
 pipeline {
   agent any
   options { timestamps(); timeout(time: 5, unit: 'MINUTES') }
+
   stages {
     stage('Build') {
-      steps{
-      bat 'g++ calculator.cpp -o calculator.exe'
-      bat 'echo Build complete. Output: calculator.exe'
+      steps {
+        bat 'g++ calculator.cpp -o calculator.exe'
+        bat 'echo Build complete. Output: calculator.exe'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        bat 'echo Running calculator tests...'
+        // choose one of these lines based on how your app reads input:
+        // bat 'echo 5 3 + | .\\calculator.exe'
+        // or:
+        // bat '.\\calculator.exe < input.txt > output.txt'
+      }
+    }
+
+    stage('Docs') {
+      steps {
+        bat 'doxygen Doxyfile'
+        bat 'echo Documentation generated in docs\\html\\'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        bat 'if not exist C:\\deploy mkdir C:\\deploy'
+        bat 'copy /Y calculator.exe C:\\deploy\\calculator.exe'
+        bat 'echo Deploy finished.'
+      }
     }
   }
-    stage('Test') {
-      steps{
-        bat 'echo Running calculator tests...'
-        bat 'echo 5 + 3 | .\\calculator.exe'
-      }
-      }
-    stage('Docs') {
-            steps {
-                bat 'doxygen Doxyfile'
-                bat 'echo Documentation generated in docs/html/'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                bat 'echo Deploying application...'
-                bat 'copy calculator.exe C:\\deploy\\calculator.exe'
-                bat 'echo Deploy finished.'
-            }
-        }
-
-      }
-    }
+}
