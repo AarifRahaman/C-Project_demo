@@ -12,9 +12,8 @@ pipeline {
       steps{
         bat 'echo Running calculator tests...'
         bat 'echo 5 + 3 | .\\calculator.exe'
-
-     
-           }
+      }
+      }
     stage('Docs') {
             steps {
                 bat 'doxygen Doxyfile'
