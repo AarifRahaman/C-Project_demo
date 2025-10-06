@@ -1,70 +1,84 @@
 stages: [build, test, docs, deploy]
 
+# ---------- Build ----------
 build:
   stage: build
+  image: debian:bookworm
   script:
-    - mkdir -p build
-    - g++ -std=c++17 -O2 -o build/app main.cpp
+    - apt-get update && apt-get install -y build-essential cmake
+    - cmake -S cpp -B build/cpp -DCMAKE_BUILD_TYPE=Release
+    - cmake --build build/cpp --config Release -j"$(nproc)"
   artifacts:
-    paths: [build/app]
+    paths:
+      - build/cpp/app
+    expire_in: 1 week
 
+# ---------- Test ----------
 test:
   stage: test
+  image: debian:bookworm
   needs: [build]
   script:
-    - ./build/app
+    - ./build/cpp/app
 
+# ---------- Docs (HTML) ----------
 docs_html:
   stage: docs
   image: debian:bookworm
   script:
     - apt-get update && apt-get install -y doxygen graphviz
-    - doxygen Doxyfile
+    - doxygen cpp/Doxyfile
   artifacts:
-    paths: [html/]
+    # If your Doxyfile OUTPUT_DIRECTORY is empty -> html/ at repo root.
+    # If you set OUTPUT_DIRECTORY = cpp in Doxyfile, change to cpp/html/
+    paths:
+      - html/
     expire_in: 1 week
 
+# ---------- Docs (PDF) ----------
 docs_pdf:
   stage: docs
   image: debian:bookworm
   script:
-    - apt-get update && apt-get install -y doxygen graphviz make texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
-    - doxygen Doxyfile
+    - apt-get update && apt-get install -y doxygen graphviz make \
+        texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+    - doxygen cpp/Doxyfile
+    # If OUTPUT_DIRECTORY is default (root):
     - cd latex && make && cp refman.pdf ../documentation.pdf
   artifacts:
-    paths: [documentation.pdf]
+    paths:
+      - documentation.pdf
     expire_in: 1 week
 
+# ---------- Deploy ----------
 deploy_staging:
   stage: deploy
+  image: debian:bookworm
   needs: ["build"]
-  environment:
-    name: staging
+  environment: { name: staging }
   rules:
     - if: '$CI_COMMIT_BRANCH != "main"'
   script:
     - echo "Deploying to staging..."
     - mkdir -p deployed
-    - cp build/app deployed/
+    - cp build/cpp/app deployed/
   artifacts:
     paths: [deployed/]
     expire_in: 1 week
 
 deploy_production:
   stage: deploy
+  image: debian:bookworm
   needs: ["build"]
-  environment:
-    name: production
+  environment: { name: production }
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
   when: manual
   script:
     - echo "Deploying to production..."
     - mkdir -p deployed
-    - cp build/app deployed/
+    - cp build/cpp/app deployed/
     - echo "Deployed successfully!"
   artifacts:
     paths: [deployed/]
     expire_in: 1 week
-  
-  
