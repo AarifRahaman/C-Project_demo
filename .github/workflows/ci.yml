@@ -1,26 +1,25 @@
-name: Trigger GitLab (C++)
+name: Trigger GitLab pipeline
 
 on:
   push:
-    branches: [ "main" ]   # change if your default branch is different
-  workflow_dispatch:       # let you run it manually from the Actions tab
+    branches: [ "main" ]   # run when you push to main
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
     env:
-      GITLAB_URL: ${{ secrets.GITLAB_URL }}
-      GITLAB_PROJECT_ID: ${{ secrets.GITLAB_PROJECT_ID }}   # <- C++ project’s numeric ID in GitLab
-      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}             # <- token that can access the C++ GitLab project
+      GITLAB_URL: ${{ secrets.GITLAB_URL }}               # e.g. https://gitlab.com  (no trailing slash)
+      GITLAB_PROJECT_ID: ${{ secrets.GITLAB_PROJECT_ID }} # numeric ID
+      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+
     steps:
       - name: Trigger GitLab pipeline
         run: |
           set -euo pipefail
-          echo "➡️  Triggering ${GITLAB_URL}/api/v4/projects/${GITLAB_PROJECT_ID}/pipeline for ref ${GITHUB_REF_NAME}"
+          API_URL="$GITLAB_URL/api/v4/projects/$GITLAB_PROJECT_ID/pipeline"
+          echo "➡️ Triggering $API_URL for ref main"
           curl --fail-with-body -sS -X POST \
-            -H "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
-            --data "ref=main" \
-            --data-urlencode "variables[LANGUAGE]=cpp" \
-            "${GITLAB_URL}/api/v4/projects/${GITLAB_PROJECT_ID}/pipeline"
-          echo ""
+            -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+            -d ref=main \
+            "$API_URL"
           echo "✅ Trigger sent."
