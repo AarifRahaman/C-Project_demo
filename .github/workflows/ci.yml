@@ -9,7 +9,7 @@ jobs:
     uses: AarifRahaman/ci-infra/.github/workflows/trigger-gitlab.yml@main
     with:
       gitlab_url: https://gitlab.com
-      project_id: ${{ vars.GITLAB_PROJECT_ID_CPP }}     # set this variable in repo settings
+      project_id: "74092627"     # set this variable in repo settings
       ref: ${{ github.ref_name }}
       language: cpp
     secrets:
