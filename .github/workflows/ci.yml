@@ -2,14 +2,14 @@ name: Trigger GitLab pipeline
 
 on:
   push:
-    branches: [ "main" ]   # run when you push to main
+    branches: [ "main" ]   # runs when you push to main
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
     env:
       GITLAB_URL: ${{ secrets.GITLAB_URL }}               # e.g. https://gitlab.com  (no trailing slash)
-      GITLAB_PROJECT_ID: ${{ secrets.GITLAB_PROJECT_ID }} # numeric ID
+      GITLAB_PROJECT_ID: ${{ secrets.GITLAB_PROJECT_ID }} # numeric project ID
       GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
     steps:
@@ -18,8 +18,12 @@ jobs:
           set -euo pipefail
           API_URL="$GITLAB_URL/api/v4/projects/$GITLAB_PROJECT_ID/pipeline"
           echo "➡️ Triggering $API_URL for ref main"
+          
           curl --fail-with-body -sS -X POST \
             -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
             -d ref=main \
+            -d "variables[][key]=LANGUAGE" \
+            -d "variables[][value]=python" \
             "$API_URL"
+
           echo "✅ Trigger sent."
