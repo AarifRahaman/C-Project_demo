@@ -1,0 +1,16 @@
+name: On push → trigger GitLab (C++)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  trigger-gitlab:
+    uses: AarifRahaman/ci-infra/.github/workflows/trigger-gitlab.yml@main
+    with:
+      gitlab_url: https://gitlab.com
+      project_id: ${{ vars.GITLAB_PROJECT_ID_CPP }}     # set this variable in repo settings
+      ref: ${{ github.ref_name }}
+      language: cpp
+    secrets:
+      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
