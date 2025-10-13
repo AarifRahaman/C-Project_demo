@@ -2,7 +2,7 @@ name: Trigger GitLab (C++)
 
 on:
   push:
-    branches: [ "main" ]   # change if your default branch is different
+    branches: [ "main" ]
 
 jobs:
   trigger:
@@ -17,7 +17,8 @@ jobs:
           echo "➡️  Triggering $API_URL for ref $GITHUB_REF_NAME"
           curl --fail-with-body -sS -X POST \
             -H "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
-            --data "ref=${GITHUB_REF_NAME}" \
-            --data "variables[LANGUAGE]=cpp" \
+            -d "ref=${GITHUB_REF_NAME}" \
+            -d "variables[][key]=LANGUAGE" \
+            -d "variables[][value]=cpp" \
             "$API_URL"
           echo "✅ Trigger sent for C++ project."
