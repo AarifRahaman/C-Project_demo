@@ -22,8 +22,7 @@ jobs:
           curl --fail-with-body -sS -X POST \
             -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
             -d ref=main \
-            -d "variables[][key]=LANGUAGE" \
-            -d "variables[][value]=cpp" \
             "$API_URL"
+
 
           echo "✅ Trigger sent."
