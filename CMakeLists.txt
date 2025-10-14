@@ -8,8 +8,6 @@ project(Calculator LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(app main.cpp)            # first program (pipeline uses this)
-add_executable(calc_tool calculator.cpp) # second program
 
 # Collect all .cpp files in this directory automatically
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS *.cpp)
