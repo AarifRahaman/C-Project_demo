@@ -7,7 +7,9 @@ project(Calculator LANGUAGES CXX)
 # Use C++17 standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_executable(app calculator.cpp)
+
+add_executable(app         main.cpp)        # first program
+add_executable(calc_tool   calculator.cpp)  # second program (uses its own main)
 
 
 # Collect all .cpp files in this directory automatically
